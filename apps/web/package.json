@@ -4,5 +4,8 @@
 	"private": true,
 	"nx": {
 		"name": "web"
+	},
+	"dependencies": {
+		"@pyng-app/ui": "workspace:*"
 	}
 }

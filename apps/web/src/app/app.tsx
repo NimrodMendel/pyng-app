@@ -1,50 +1,47 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.css';
-import NxWelcome from './nx-welcome';
+import { Anchor, Container, Group, Loader, Stack, Text, Title } from '@mantine/core';
+import { SignupForm } from '@pyng-app/ui';
+import { useQuery } from '@tanstack/react-query';
+import { Link, Route, Routes } from 'react-router-dom';
 
-import { Route, Routes, Link } from 'react-router-dom';
+async function fetchApiMessage(): Promise<{ message: string }> {
+	const res = await fetch('/api');
+	if (!res.ok) throw new Error(`API responded with ${res.status}`);
+	return res.json();
+}
+
+function Home() {
+	const { data, isPending, isError } = useQuery({
+		queryKey: ['api-message'],
+		queryFn: fetchApiMessage,
+	});
+
+	return (
+		<Stack>
+			<Title order={2}>Welcome to pyng</Title>
+			{isPending && <Loader size="sm" />}
+			{isError && <Text c="red">Could not reach the API</Text>}
+			{data && <Text>API says: {data.message}</Text>}
+			<SignupForm onSubmit={(values) => console.log('signup', values)} />
+		</Stack>
+	);
+}
 
 export function App() {
 	return (
-		<div>
-			<NxWelcome title="web" />
-
-			{/* START: routes */}
-			{/* These routes and navigation have been generated for you */}
-			{/* Feel free to move and update them to fit your needs */}
-			<br />
-			<hr />
-			<br />
-			<nav>
-				<ul>
-					<li>
-						<Link to="/">Home</Link>
-					</li>
-					<li>
-						<Link to="/page-2">Page 2</Link>
-					</li>
-				</ul>
-			</nav>
+		<Container py="xl">
+			<Group mb="lg">
+				<Anchor component={Link} to="/">
+					Home
+				</Anchor>
+				<Anchor component={Link} to="/page-2">
+					Page 2
+				</Anchor>
+			</Group>
 			<Routes>
-				<Route
-					path="/"
-					element={
-						<div>
-							This is the generated root route. <Link to="/page-2">Click here for page 2.</Link>
-						</div>
-					}
-				/>
-				<Route
-					path="/page-2"
-					element={
-						<div>
-							<Link to="/">Click here to go back to root page.</Link>
-						</div>
-					}
-				/>
+				<Route path="/" element={<Home />} />
+				<Route path="/page-2" element={<Text>This is page 2.</Text>} />
 			</Routes>
-			{/* END: routes */}
-		</div>
+		</Container>
 	);
 }
 
