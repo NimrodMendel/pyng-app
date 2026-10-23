@@ -1,0 +1,7 @@
+{
+	"*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": [
+		"eslint --fix --flag v10_config_lookup_from_file",
+		"prettier --write"
+	],
+	"*.{json,md,css,html,yml,yaml}": "prettier --write"
+}
