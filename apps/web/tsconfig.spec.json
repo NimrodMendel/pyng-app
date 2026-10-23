@@ -2,6 +2,7 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"outDir": "./out-tsc/vitest",
+		"lib": ["es2022", "dom"],
 		"types": [
 			"vitest/globals",
 			"vitest/importMeta",
@@ -16,6 +17,7 @@
 		"moduleResolution": "bundler"
 	},
 	"include": [
+		"src/test-setup.ts",
 		"vite.config.ts",
 		"vite.config.mts",
 		"vitest.config.ts",
